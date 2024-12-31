@@ -53,7 +53,7 @@ if(UR_OPENCL_INCLUDE_DIR)
 else()
     FetchContent_Declare(OpenCL-Headers
         GIT_REPOSITORY  "https://github.com/KhronosGroup/OpenCL-Headers.git"
-        GIT_TAG         main
+        GIT_TAG         9ddb236e6eb3cf844f9e2f81677e1045f9bf838e
     )
     FetchContent_MakeAvailable(OpenCL-Headers)
     FetchContent_GetProperties(OpenCL-Headers
@@ -70,7 +70,7 @@ else()
     if(NOT OpenCL_FOUND)
         FetchContent_Declare(OpenCL-ICD-Loader
             GIT_REPOSITORY  "https://github.com/KhronosGroup/OpenCL-ICD-Loader.git"
-            GIT_TAG         main
+            GIT_TAG         9a3e962f16f5097d2054233ad8b6dad51b6f41b7
         )
         FetchContent_MakeAvailable(OpenCL-ICD-Loader)
     endif()
