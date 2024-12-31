@@ -31,7 +31,17 @@ UR_APIEXPORT ur_result_t UR_APICALL urContextCreate(
   ZeStruct<ze_context_desc_t> ContextDesc{};
 
   ze_context_handle_t ZeContext{};
-  ZE2UR_CALL(zeContextCreate, (Platform->ZeDriver, &ContextDesc, &ZeContext));
+  if (Devices == nullptr || DeviceCount == 0) {
+    ZE2UR_CALL(zeContextCreate, (Platform->ZeDriver, &ContextDesc, &ZeContext));
+  } else {
+    std::vector<ze_device_handle_t> ZeDevices(DeviceCount);
+    std::transform(
+      Devices, Devices + DeviceCount, ZeDevices.begin(),
+      [](const ur_device_handle_t hUrDev){ return hUrDev->ZeDevice; }
+    );
+    ZE2UR_CALL(zeContextCreateEx,
+          (Platform->ZeDriver, &ContextDesc, DeviceCount, ZeDevices.data(), &ZeContext));
+  }
   try {
     ur_context_handle_t_ *Context =
         new ur_context_handle_t_(ZeContext, DeviceCount, Devices, true);
